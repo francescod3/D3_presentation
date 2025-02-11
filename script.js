@@ -35,7 +35,14 @@ const svg = d3.select("#pizza-chart").append("svg")
     .tickPadding(10);
 
   // Erstelle die Balken für das Diagramm
-  // ...
+  svg.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", "bar")
+    // ...
+    // ...
+    .attr("x", 0)
+    // ...
 
   // X- und Y-Achsen hinzufügen
   svg.append("g")
