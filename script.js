@@ -51,7 +51,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     });
 
 
-  // Add labels to the end of each bar
+  // Beschriftung für die Balken hinzufügen
   svg.selectAll(".label")
     .data(data)
     .enter().append("text")
@@ -66,7 +66,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     .text(function (d) { return d.statistik; });
 
 
-  // Add the chart title
+  // Titel für das Diagramm hinzufügen
   svg.append("text")
     .attr("x", margin.left - 335)
     .attr("y", margin.top - 110)
