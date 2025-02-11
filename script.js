@@ -17,9 +17,14 @@ const svg = d3.select("#pizza-chart").append("svg")
   // ...
 
   // Skala für die x- und y-Achse definieren
-  const x = // ...
+  const x = d3.scaleLinear()
+    .range([0, width])
+    .domain([0, d3.max(data, function (d) { return d.statistik; })]);
 
-  const y = // ...
+  const y = d3.scaleBand()
+    .range([height, 0])
+    .padding(0.1)
+    .domain(data.map(function (d) { return d.pizza_adv; }));
 
   // x- und y-Achsen erstellen 
   const xAxis = d3.axisBottom(x)
