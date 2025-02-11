@@ -11,13 +11,15 @@ const svg = d3.select("#pizza-chart").append("svg")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   // Lade die Daten aus der csv-Datei
+  // ...
 
   // Sortiere die Daten nach der Spalte statistik
+  // ...
 
   // Skala für die x- und y-Achse definieren
-  const x = 
+  const x = // ...
 
-  const y = 
+  const y = // ...
 
   // x- und y-Achsen erstellen 
   const xAxis = d3.axisBottom(x)
@@ -28,7 +30,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     .tickPadding(10);
 
   // Erstelle die Balken für das Diagramm
-
+  // ...
 
   // X- und Y-Achsen hinzufügen
   svg.append("g")
@@ -72,8 +74,14 @@ const svg = d3.select("#pizza-chart").append("svg")
     .attr("y", margin.top - 110)
 
     // Style für den Titel hinzufügen
+    // ...
+
+    // Titel 
+    // ... 
 
   // Datenquelle hinzufügen
-  
+  svg.append("text")
+    .attr("transform", "translate(" + (margin.left - 335) + "," + (height + margin.bottom - 10) + ")")
+  // Quelle bzw. href hinzu
 
 });
