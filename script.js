@@ -79,7 +79,9 @@ const svg = d3.select("#pizza-chart").append("svg")
     .attr("y", margin.top - 110)
 
     // Style für den Titel hinzufügen
-    // ...
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .style("font-family", "sans-serif")
 
     // Titel 
     // ... 
