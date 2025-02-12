@@ -10,19 +10,19 @@ const svg = d3.select("#pizza-chart").append("svg")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//TODO - 1. Lade die Daten aus der Datei csv-Datei 
-//          und konvertiere die Werte in Zahlen
-d3.csv("pizza.csv").then(data => {
-  data.forEach(d => {
-    d.statistik = +d.statistik; // hier wird der Wert in eine Zahl umgewandelt
+  // Lade die Daten aus der csv-Datei
+  d3.csv("pizza.csv").then(data => {
+    data.forEach(d => {
+      d.statistik = +d.statistik;
+    });
+
+
+  // Sortiere die Daten nach der Spalte statistik
+  data.sort(function (a,b){
+    return d3.ascending(a.statistik, b.statistik);
   });
 
-  //TODO - 2. Sortiere die Daten nach der Spalte statistik
-  data.sort(function (a, b) { 
-    return d3.ascending(a.statistik, b.statistik); // das bedeutet, dass die Daten aufsteigend sortiert werden
-  });
-
-  // Definiere die Skalen für die x- und y-Achse
+  // Skala für die x- und y-Achse definieren
   const x = d3.scaleLinear()
     .range([0, width])
     .domain([0, d3.max(data, function (d) { return d.statistik; })]);
@@ -32,7 +32,7 @@ d3.csv("pizza.csv").then(data => {
     .padding(0.1)
     .domain(data.map(function (d) { return d.pizza_adv; }));
 
-  // x- und y-Achsen erstellen
+  // x- und y-Achsen erstellen 
   const xAxis = d3.axisBottom(x)
     .ticks(5)
 
@@ -40,17 +40,16 @@ d3.csv("pizza.csv").then(data => {
     .tickSize(0)
     .tickPadding(10);
 
-
-  //TODO - 3. Erstelle die Balken für das Diagramm
+  // Erstelle die Balken für das Diagramm
   svg.selectAll(".bar")
     .data(data)
     .enter().append("rect")
     .attr("class", "bar")
     .attr("y", function (d) { return y(d.pizza_adv); }) // das bedeutet, dass die Balken bei 0 anfangen
     .attr("height", y.bandwidth()) // bandwith() gibt die Breite der Balken zurück
-    .attr("x", 0) // das bedeutet, dass die Balken bei 0 anfangen
+    .attr("x", 0)
     .attr("width", function (d) { return x(d.statistik); }) // das bedeutet, dass die Balken bei 0 anfangen
-    .attr('fill', 'orange')
+    .attr('fill', 'blue')
 
   // X- und Y-Achsen hinzufügen
   svg.append("g")
@@ -73,8 +72,7 @@ d3.csv("pizza.csv").then(data => {
     });
 
 
-  // Beschriftung der Balken hinzufügen 
-  // Zahl am Ende
+  // Beschriftung für die Balken hinzufügen
   svg.selectAll(".label")
     .data(data)
     .enter().append("text")
@@ -83,7 +81,7 @@ d3.csv("pizza.csv").then(data => {
     .attr("y", function (d) { return y(d.pizza_adv) + y.bandwidth() / 2; })
     .attr("dy", ".35em")
 
-    //TODO - 4. Füge Styles hinzu
+    // Styles hinzufügen
     .style("font-family", "sans-serif")
     .style("font-size", "10px")
     .style("font-weight", "bold")
@@ -91,36 +89,28 @@ d3.csv("pizza.csv").then(data => {
 
     .text(function (d) { return d.statistik; });
 
-  // Add statistik label (Unten Titel mittig / optional)
-//   svg.append("text")
-//     .attr("transform", "translate(" + width / 2 + "," + (height + margin.bottom / 2) + ")")
-//     .style("text-anchor", "middle")
-//     .style("font-size", "10px")
-//     .style("fill", "black")
-//     .style("font-family", "sans-serif")
-//     .attr("dy", "1em")
-//     .text("statistik");
 
-  // Add the chart title
+  // Titel für das Diagramm hinzufügen
   svg.append("text")
     .attr("x", margin.left - 335)
     .attr("y", margin.top - 110)
 
+    // Style für den Titel hinzufügen
     .style("font-size", "14px")
     .style("font-weight", "bold")
     .style("font-family", "sans-serif")
 
-    // TODO - 5. Füge den Titel hinzu
-    .text("Beliebteste Pizza an der ADV");
+    // Titel 
+    .text("Moinesen")
 
-  
+  // Datenquelle hinzufügen
   svg.append("text")
     .attr("transform", "translate(" + (margin.left - 335) + "," + (height + margin.bottom - 10) + ")")
-    // TODO - 6. Füge Quelle hinzu
-    .style("text-anchor", "start")
+  // Quelle bzw. href hinzu
+  .style("text-anchor", "start")
     .style("font-size", "8px")
     .style("fill", "lightgray")
     .style("font-family", "sans-serif")
-    .html("<a href='https://www.gds2.de'>Source: blabla.de</a>");
+    .html("<a href='https://gds2.de'>Source: blabla.de</a>");
 
 });
