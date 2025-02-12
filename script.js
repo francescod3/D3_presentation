@@ -10,19 +10,18 @@ const svg = d3.select("#pizza-chart").append("svg")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  // Lade die Daten aus der csv-Datei
-  d3.csv("pizza.csv").then(data => {
-    data.forEach(d => {
-      d.statistik = +d.statistik;
-    });
-
-
-  // Sortiere die Daten nach der Spalte statistik
-  data.sort(function (a,b){
-    return d3.ascending(a.statistik, b.statistik);
+// Lade die Daten aus der Datei csv-Datei 
+d3.csv("pizza.csv").then(data => {
+  data.forEach(d => {
+    d.statistik = +d.statistik; 
   });
 
-  // Skala für die x- und y-Achse definieren
+  // Sortiere die Daten nach der Spalte statistik
+  data.sort(function (a, b) { 
+    return d3.ascending(a.statistik, b.statistik); // sortiere aufsteigend
+  });
+
+  // Definiere die Skalen für die x- und y-Achse
   const x = d3.scaleLinear()
     .range([0, width])
     .domain([0, d3.max(data, function (d) { return d.statistik; })]);
@@ -32,7 +31,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     .padding(0.1)
     .domain(data.map(function (d) { return d.pizza_adv; }));
 
-  // x- und y-Achsen erstellen 
+  // x- und y-Achsen erstellen
   const xAxis = d3.axisBottom(x)
     .ticks(5)
 
@@ -40,16 +39,17 @@ const svg = d3.select("#pizza-chart").append("svg")
     .tickSize(0)
     .tickPadding(10);
 
+
   // Erstelle die Balken für das Diagramm
   svg.selectAll(".bar")
     .data(data)
     .enter().append("rect")
     .attr("class", "bar")
-    .attr("y", function (d) { return y(d.pizza_adv); }) // das bedeutet, dass die Balken bei 0 anfangen
+    .attr("y", function (d) { return y(d.pizza_adv); }) // Y-Balken bei 0 anfangen
     .attr("height", y.bandwidth()) // bandwith() gibt die Breite der Balken zurück
-    .attr("x", 0)
-    .attr("width", function (d) { return x(d.statistik); }) // das bedeutet, dass die Balken bei 0 anfangen
-    .attr('fill', 'blue')
+    .attr("x", 0) 
+    .attr("width", function (d) { return x(d.statistik); }) // X-Balken bei 0 anfangen
+    .attr('fill', 'orange')
 
   // X- und Y-Achsen hinzufügen
   svg.append("g")
@@ -72,7 +72,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     });
 
 
-  // Beschriftung für die Balken hinzufügen
+  // Beschriftung der Balken hinzufügen (Zahl am Ende)
   svg.selectAll(".label")
     .data(data)
     .enter().append("text")
@@ -81,7 +81,7 @@ const svg = d3.select("#pizza-chart").append("svg")
     .attr("y", function (d) { return y(d.pizza_adv) + y.bandwidth() / 2; })
     .attr("dy", ".35em")
 
-    // Styles hinzufügen
+    // Füge Styles hinzu
     .style("font-family", "sans-serif")
     .style("font-size", "10px")
     .style("font-weight", "bold")
@@ -89,28 +89,26 @@ const svg = d3.select("#pizza-chart").append("svg")
 
     .text(function (d) { return d.statistik; });
 
-
-  // Titel für das Diagramm hinzufügen
+  // Titel
   svg.append("text")
     .attr("x", margin.left - 335)
     .attr("y", margin.top - 110)
 
-    // Style für den Titel hinzufügen
     .style("font-size", "14px")
     .style("font-weight", "bold")
     .style("font-family", "sans-serif")
 
-    // Titel 
-    .text("Moinesen")
+    // Füge den Titel hinzu
+    .text("Beliebteste Pizza an der ADV");
 
-  // Datenquelle hinzufügen
+  
   svg.append("text")
     .attr("transform", "translate(" + (margin.left - 335) + "," + (height + margin.bottom - 10) + ")")
-  // Quelle bzw. href hinzu
-  .style("text-anchor", "start")
+    // Füge Quelle hinzu
+    .style("text-anchor", "start")
     .style("font-size", "8px")
     .style("fill", "lightgray")
     .style("font-family", "sans-serif")
-    .html("<a href='https://gds2.de'>Source: blabla.de</a>");
+    .html("<a href='https://www.gds2.de'>Quelle: gds2.de</a>");
 
 });
